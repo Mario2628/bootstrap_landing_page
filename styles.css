@@ -1,55 +1,89 @@
-/* ===== Compensar navbar FIJA y anclas ===== */
-body{ padding-top: 76px; }
-@media (min-width:992px){ body{ padding-top: 88px; } }
-section{ scroll-margin-top: 96px; }
-.navbar{ z-index:1030; }
-
-/* Logo junto a la marca (opcional, ya lo usas) */
-.brand-logo{ height:36px; width:auto; border-radius:.35rem; box-shadow:0 2px 8px rgba(0,0,0,.12); }
-
-/* ===== Hover con COLORES LLAMATIVOS ===== */
-/* 1) Links del menú: halo multicolor */
-.navbar .nav-link{
-  border-radius:.5rem;
-  transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease;
-}
-.navbar .nav-link:hover{
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 3px rgba(46,213,115,.45),  /* verde */
-    0 0 12px rgba(13,110,253,.40),   /* azul */
-    0 0 20px rgba(111,66,193,.38),   /* morado */
-    0 0 28px rgba(255,193,7,.38);    /* amarillo */
-  background-color: rgba(0,0,0,.02);
+/* === Forzamos modo oscuro global === */
+html[data-bs-theme="dark"], body {
+  background-color: #0d1117;
+  color: #e6f4eb;
 }
 
-/* 2) Alrededor de las IMÁGENES (hero, cards y galería) */
-#hero img, .card-img-top, .carousel-img{
-  border-radius:.75rem;
-  transition: transform .22s ease, filter .22s ease;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,.08)); /* base limpio */
+/* === Adaptabilidad === */
+img, video { max-width: 100%; height: auto; }
+section { scroll-margin-top: 90px; }
+
+/* === Hero === */
+.hero {
+  background: linear-gradient(180deg,#0d1117,#111820);
 }
-#hero img:hover, .card-img-top:hover, .carousel-img:hover{
-  transform: translateY(-3px) scale(1.03);
-  filter:
-    drop-shadow(0 0 10px rgba(46,213,115,.70))
-    drop-shadow(0 0 16px rgba(13,110,253,.65))
-    drop-shadow(0 0 24px rgba(111,66,193,.60))
-    drop-shadow(0 0 34px rgba(255,193,7,.65));
+.hero-img {
+  border-radius: .75rem;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.hero-img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(0,255,160,.4);
 }
 
-/* Potencia extra del glow en modo oscuro */
-html[data-bs-theme="dark"] #hero img:hover,
-html[data-bs-theme="dark"] .card-img-top:hover,
-html[data-bs-theme="dark"] .carousel-img:hover{
-  filter:
-    drop-shadow(0 0 12px rgba(46,213,115,.85))
-    drop-shadow(0 0 20px rgba(13,110,253,.80))
-    drop-shadow(0 0 28px rgba(111,66,193,.78))
-    drop-shadow(0 0 40px rgba(255,193,7,.78));
+/* === Navbar === */
+.navbar { backdrop-filter: blur(6px); }
+.navbar .nav-link {
+  color: #e6f4eb;
+  transition: color .2s, transform .2s;
+}
+.navbar .nav-link:hover {
+  color: #00ffc6;
+  transform: scale(1.1);
 }
 
-/* Accesibilidad: menos animación si el usuario lo pide */
-@media (prefers-reduced-motion: reduce){
-  .navbar .nav-link, #hero img, .card-img-top, .carousel-img{ transition:none }
+/* === Cards, tablas, acordeones === */
+.hover-card:hover {
+  transform: translateY(-4px);
+  transition: .3s;
+  box-shadow: 0 0 18px rgba(0,255,160,.3);
+}
+.accordion-button:not(.collapsed) {
+  color: #00ffc6;
+  background-color: #111820;
+}
+.table { color: #e6f4eb; }
+
+/* === Carousel === */
+.carousel-img {
+  border-radius: .75rem;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.carousel-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(0,255,160,.3);
+}
+
+/* === Formularios === */
+.form-control:focus {
+  border-color: #00ffc6;
+  box-shadow: 0 0 8px rgba(0,255,160,.4);
+}
+
+/* === Botones === */
+.btn-success {
+  background-color: #00c97b;
+  border: none;
+}
+.btn-success:hover {
+  background-color: #00ffc6;
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(0,255,160,.4);
+}
+.btn-outline-light:hover {
+  background-color: #00ffc6;
+  color: #000;
+}
+
+/* === Footer === */
+footer {
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+/* === Responsivo === */
+@media (max-width:768px){
+  .hero h1 { font-size: 1.8rem; }
+  .hero p { font-size: 1rem; }
+  .btn-lg { font-size: 1rem; padding: .6rem 1rem; }
 }
