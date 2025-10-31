@@ -1,89 +1,80 @@
-/* === Forzamos modo oscuro global === */
-html[data-bs-theme="dark"], body {
-  background-color: #0d1117;
-  color: #e6f4eb;
+/* ===== Ajustes generales y anclas ===== */
+section{ scroll-margin-top: 96px; }
+
+/* ===== Logo ===== */
+.brand-logo{
+  height:36px; width:auto; border-radius:.35rem;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
 }
 
-/* === Adaptabilidad === */
-img, video { max-width: 100%; height: auto; }
-section { scroll-margin-top: 90px; }
-
-/* === Hero === */
-.hero {
-  background: linear-gradient(180deg,#0d1117,#111820);
-}
-.hero-img {
-  border-radius: .75rem;
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.hero-img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 20px rgba(0,255,160,.4);
+/* ===== Hero ===== */
+.hero{
+  background:
+    linear-gradient(180deg, #ffffff, rgba(255,255,255,.92)),
+    radial-gradient(900px 360px at 90% 0%, rgba(14,122,59,.06), transparent 60%);
 }
 
-/* === Navbar === */
-.navbar { backdrop-filter: blur(6px); }
-.navbar .nav-link {
-  color: #e6f4eb;
-  transition: color .2s, transform .2s;
+/* ===== Tamaño consistente en imágenes ===== */
+.object-cover{ height:220px; object-fit:cover }
+.carousel-img{ height:480px; object-fit:cover; border-radius:.75rem; }
+
+/* ===== Resaltado MUY LLAMATIVO alrededor de IMÁGENES ===== */
+#hero img, .card-img-top, #galeria .carousel-img{
+  border-radius:.75rem;
+  transition: transform .22s ease, filter .22s ease;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.08));
 }
-.navbar .nav-link:hover {
-  color: #00ffc6;
-  transform: scale(1.1);
+#hero img:hover, .card-img-top:hover, #galeria .carousel-img:hover{
+  transform: translateY(-3px) scale(1.03);
+  filter:
+    drop-shadow(0 0 10px rgba(0,255,150,.70))  /* Verde neón */
+    drop-shadow(0 0 16px rgba(0,110,255,.65))  /* Azul vivo */
+    drop-shadow(0 0 24px rgba(155,0,255,.60))  /* Morado */
+    drop-shadow(0 0 32px rgba(255,200,0,.60)); /* Amarillo */
 }
 
-/* === Cards, tablas, acordeones === */
-.hover-card:hover {
-  transform: translateY(-4px);
-  transition: .3s;
-  box-shadow: 0 0 18px rgba(0,255,160,.3);
-}
-.accordion-button:not(.collapsed) {
-  color: #00ffc6;
-  background-color: #111820;
-}
-.table { color: #e6f4eb; }
-
-/* === Carousel === */
-.carousel-img {
-  border-radius: .75rem;
-  transition: transform .25s ease, box-shadow .25s ease;
-}
-.carousel-img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(0,255,160,.3);
+/* En modo oscuro, subimos potencia del glow */
+html[data-bs-theme="dark"] #hero img:hover,
+html[data-bs-theme="dark"] .card-img-top:hover,
+html[data-bs-theme="dark"] #galeria .carousel-img:hover{
+  filter:
+    drop-shadow(0 0 12px rgba(0,255,150,.85))
+    drop-shadow(0 0 20px rgba(0,110,255,.80))
+    drop-shadow(0 0 28px rgba(155,0,255,.78))
+    drop-shadow(0 0 40px rgba(255,200,0,.78));
 }
 
-/* === Formularios === */
-.form-control:focus {
-  border-color: #00ffc6;
-  box-shadow: 0 0 8px rgba(0,255,160,.4);
+/* Hover sutil en otros elementos */
+.accordion-button, .list-group-item, .table tbody tr{
+  transition: box-shadow .18s ease, transform .18s ease, background-color .18s ease;
+}
+.accordion-button:hover, .list-group-item:hover, .table tbody tr:hover{
+  background-color: rgba(46,213,115,.06);
+  box-shadow: inset 0 0 0 2px rgba(46,213,115,.25);
 }
 
-/* === Botones === */
-.btn-success {
-  background-color: #00c97b;
-  border: none;
-}
-.btn-success:hover {
-  background-color: #00ffc6;
-  color: #000;
-  transform: scale(1.05);
-  box-shadow: 0 0 16px rgba(0,255,160,.4);
-}
-.btn-outline-light:hover {
-  background-color: #00ffc6;
-  color: #000;
-}
+/* Navbar: sombra al hacer scroll (activado por JS) */
+.navbar.scrolled{ box-shadow:0 8px 24px rgba(0,0,0,.08); }
 
-/* === Footer === */
-footer {
-  border-top: 1px solid rgba(255,255,255,.1);
+/* ===== Modo oscuro (aplicado cuando el botón pone data-bs-theme="dark") ===== */
+html[data-bs-theme="dark"] body{
+  background:
+    radial-gradient(1000px 360px at 10% -10%, rgba(17,108,65,.16), transparent 60%) no-repeat,
+    linear-gradient(180deg, #0b1411, #0f1815);
+  color:#e6f4eb;
 }
+html[data-bs-theme="dark"] .bg-light{ background:#101c17!important }
+html[data-bs-theme="dark"] .card{ background:#0f1815; color:#e6f4eb; }
+html[data-bs-theme="dark"] .accordion-button{ background:#0f1815; color:#e6f4eb }
+html[data-bs-theme="dark"] .accordion-button:not(.collapsed){ background:#12221b }
+html[data-bs-theme="dark"] .table-striped>tbody>tr:nth-of-type(odd)>*{ background:#0f1a15 }
+html[data-bs-theme="dark"] .table-hover>tbody>tr:hover>*{ background:#13221b }
+html[data-bs-theme="dark"] .btn-outline-primary{ color:#6dd9a9; border-color:#0e7a3b }
+html[data-bs-theme="dark"] .btn-outline-primary:hover{ background:#0e7a3b; color:#fff }
+html[data-bs-theme="dark"] .btn-primary{ background:#0e7a3b; border-color:#0e7a3b }
 
-/* === Responsivo === */
-@media (max-width:768px){
-  .hero h1 { font-size: 1.8rem; }
-  .hero p { font-size: 1rem; }
-  .btn-lg { font-size: 1rem; padding: .6rem 1rem; }
+/* Accesibilidad: reduce motion */
+@media (prefers-reduced-motion: reduce){
+  #hero img, .card-img-top, #galeria .carousel-img,
+  .accordion-button, .list-group-item, .table tbody tr{ transition:none }
 }
