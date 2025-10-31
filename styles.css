@@ -1,0 +1,55 @@
+/* ===== Compensar navbar FIJA y anclas ===== */
+body{ padding-top: 76px; }
+@media (min-width:992px){ body{ padding-top: 88px; } }
+section{ scroll-margin-top: 96px; }
+.navbar{ z-index:1030; }
+
+/* Logo junto a la marca (opcional, ya lo usas) */
+.brand-logo{ height:36px; width:auto; border-radius:.35rem; box-shadow:0 2px 8px rgba(0,0,0,.12); }
+
+/* ===== Hover con COLORES LLAMATIVOS ===== */
+/* 1) Links del menú: halo multicolor */
+.navbar .nav-link{
+  border-radius:.5rem;
+  transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease;
+}
+.navbar .nav-link:hover{
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 3px rgba(46,213,115,.45),  /* verde */
+    0 0 12px rgba(13,110,253,.40),   /* azul */
+    0 0 20px rgba(111,66,193,.38),   /* morado */
+    0 0 28px rgba(255,193,7,.38);    /* amarillo */
+  background-color: rgba(0,0,0,.02);
+}
+
+/* 2) Alrededor de las IMÁGENES (hero, cards y galería) */
+#hero img, .card-img-top, .carousel-img{
+  border-radius:.75rem;
+  transition: transform .22s ease, filter .22s ease;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.08)); /* base limpio */
+}
+#hero img:hover, .card-img-top:hover, .carousel-img:hover{
+  transform: translateY(-3px) scale(1.03);
+  filter:
+    drop-shadow(0 0 10px rgba(46,213,115,.70))
+    drop-shadow(0 0 16px rgba(13,110,253,.65))
+    drop-shadow(0 0 24px rgba(111,66,193,.60))
+    drop-shadow(0 0 34px rgba(255,193,7,.65));
+}
+
+/* Potencia extra del glow en modo oscuro */
+html[data-bs-theme="dark"] #hero img:hover,
+html[data-bs-theme="dark"] .card-img-top:hover,
+html[data-bs-theme="dark"] .carousel-img:hover{
+  filter:
+    drop-shadow(0 0 12px rgba(46,213,115,.85))
+    drop-shadow(0 0 20px rgba(13,110,253,.80))
+    drop-shadow(0 0 28px rgba(111,66,193,.78))
+    drop-shadow(0 0 40px rgba(255,193,7,.78));
+}
+
+/* Accesibilidad: menos animación si el usuario lo pide */
+@media (prefers-reduced-motion: reduce){
+  .navbar .nav-link, #hero img, .card-img-top, .carousel-img{ transition:none }
+}
