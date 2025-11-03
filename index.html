@@ -5,18 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Congreso de Ingenierías UDL 2025</title>
 
-  <!-- APLICAR TEMA ANTES DE PINTAR LA PÁGINA (arregla el botón definitivamente) -->
+  <!-- APLICA EL TEMA ANTES DE PINTAR: html + (cuando exista) body -->
   <script>
     (function() {
       try {
-        var key = 'udl_theme';
-        var saved = localStorage.getItem(key);
-        // Si hay tema guardado (dark/light), aplícalo antes de cargar estilos.
-        if (saved === 'dark' || saved === 'light') {
-          document.documentElement.setAttribute('data-bs-theme', saved);
+        var KEY = 'udl_theme';
+        var saved = localStorage.getItem(KEY);
+        var theme = (saved === 'dark' || saved === 'light') ? saved : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        if (document.body) {
+          document.body.setAttribute('data-bs-theme', theme);
+        } else {
+          document.addEventListener('DOMContentLoaded', function(){
+            document.body.setAttribute('data-bs-theme', theme);
+          });
         }
       } catch(e) {
-        // Si localStorage falla (modo privado estricto), no rompe la página.
+        // ignora
       }
     })();
   </script>
@@ -29,7 +34,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top shadow-sm">
   <div class="container">
-    <!-- Logo + texto (ajusta la ruta del logo si es .png) -->
+    <!-- Logo + texto -->
     <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
       <img src="congreso/logo_udl.jpg" alt="Logo UDL" class="brand-logo">
       <span>Congreso UDL</span>
@@ -324,22 +329,32 @@
   </div>
 </div>
 
+<!-- Bootstrap con defer -->
 <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
+
+<!-- Script robusto con defer y try/catch (NO rompe si falla algo) -->
+<script defer>
 (() => {
   // =======================
-  //  Validación + Toast
+  //  Validación + Toast (a prueba de fallos)
   // =======================
   const form = document.getElementById('regForm');
   const toastEl = document.getElementById('toastOk');
-  const toast = toastEl ? new bootstrap.Toast(toastEl) : null;
+  let toast = null;
+  try {
+    if (window.bootstrap && bootstrap.Toast && toastEl) {
+      toast = new bootstrap.Toast(toastEl);
+    }
+  } catch (e) {
+    // si bootstrap no está, no rompemos la app
+  }
 
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     if (!form.checkValidity()) {
       e.stopPropagation();
     } else {
-      toast?.show();
+      try { toast?.show(); } catch(e){}
       form.reset();
       form.classList.remove('was-validated');
       return;
@@ -348,33 +363,40 @@
   });
 
   // ============================================
-  //  BOTÓN Modo oscuro (persistente y fiable)
+  //  BOTÓN Modo oscuro (persistente) — ultra defensivo
   // ============================================
-  const THEME_KEY = 'udl_theme';
+  const KEY = 'udl_theme';
   const html = document.documentElement;
+  const body = document.body;
   const btnTheme = document.getElementById('toggleTheme');
 
-  function syncBtnText() {
-    if (!btnTheme) return;
-    const isDark = html.getAttribute('data-bs-theme') === 'dark';
-    btnTheme.textContent = isDark ? 'Modo claro' : 'Modo oscuro';
+  function setTheme(theme){
+    html.setAttribute('data-bs-theme', theme);
+    body.setAttribute('data-bs-theme', theme);
+    try { localStorage.setItem(KEY, theme); } catch(e){}
+    syncBtnText();
   }
-
-  // Sincroniza texto al cargar (después de aplicar tema temprano)
+  function currentTheme(){
+    return html.getAttribute('data-bs-theme') || 'light';
+  }
+  function syncBtnText(){
+    if(!btnTheme) return;
+    btnTheme.textContent = currentTheme() === 'dark' ? 'Modo claro' : 'Modo oscuro';
+  }
+  // Sincroniza texto al cargar
   syncBtnText();
 
+  // Toggle siempre funcional
   btnTheme?.addEventListener('click', () => {
-    const next = (html.getAttribute('data-bs-theme') === 'dark') ? 'light' : 'dark';
-    html.setAttribute('data-bs-theme', next);
-    try { localStorage.setItem(THEME_KEY, next); } catch(e) {}
-    syncBtnText();
+    const next = currentTheme() === 'dark' ? 'light' : 'dark';
+    setTheme(next);
   });
 
   // =======================
   //  Navbar: sombra onScroll
   // =======================
   const nav = document.querySelector('.navbar');
-  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
+  const onScroll = () => nav?.classList.toggle('scrolled', window.scrollY > 10);
   onScroll();
   window.addEventListener('scroll', onScroll);
 })();
